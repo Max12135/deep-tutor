@@ -1,0 +1,33 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "启动后端 (FastAPI)",
+      "type": "python",
+      "request": "launch",
+      "module": "uvicorn",
+      "args": ["main:app", "--reload", "--host", "127.0.0.1", "--port", "5000"],
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}/backend",
+      "env": { "PYTHONPATH": "${workspaceFolder}/backend" },
+      "justMyCode": false
+    },
+    {
+      "name": "启动前端 (Streamlit)",
+      "type": "python",
+      "request": "launch",
+      "module": "streamlit",
+      "args": ["run", "main.py", "--server.port", "8501"],
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}/frontend",
+      "justMyCode": false
+    }
+  ],
+  "compounds": [
+    {
+      "name": "同时启动前后端",
+      "configurations": ["启动后端 (FastAPI)", "启动前端 (Streamlit)"],
+      "stopAll": true
+    }
+  ]
+}

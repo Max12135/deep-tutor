@@ -1,0 +1,59 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "DeepTutor: 一键启动（后端+前端）",
+      "type": "shell",
+      "command": "${workspaceFolder}\\start.bat",
+      "windows": {
+        "command": "${workspaceFolder}\\start.bat"
+      },
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "clear": false
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "DeepTutor: 仅启动后端",
+      "type": "shell",
+      "command": "${workspaceFolder}\\frontend\\.venv\\Scripts\\python.exe -m uvicorn main:app --host 127.0.0.1 --port 5000",
+      "options": {
+        "cwd": "${workspaceFolder}\\backend"
+      },
+      "isBackground": true,
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "DeepTutor: 仅启动前端",
+      "type": "shell",
+      "command": "${workspaceFolder}\\frontend\\.venv\\Scripts\\python.exe -m streamlit run main.py",
+      "options": {
+        "cwd": "${workspaceFolder}\\frontend"
+      },
+      "isBackground": true,
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "DeepTutor: 安装依赖",
+      "type": "shell",
+      "command": "${workspaceFolder}\\frontend\\.venv\\Scripts\\python.exe -m pip install -r backend\\requirements.txt -r frontend\\requirements.txt",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": []
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+langchain-core==1.0.0
+langchain==1.0.0
+langchain-community==1.0.0a1
+langchain-chroma==1.0.0
+langchain-huggingface==1.0.0
+langchain-docling
+langchain-openai
+
+
+duckduckgo-search
+sentence-transformers
+
+# langchain 1.0 的 deepseek provider 需要；langgraph-checkpoint 4.1+ 与 langchain-core==1.0.0 不兼容
+langchain-deepseek
+langgraph-checkpoint>=4.0,<4.1
+# FastAPI Form/File 端点（简历上传）必需
+python-multipart
+
+hydra-core
+beautifulsoup4
+fastapi
+pypdf
+pdfplumber
+pypinyin
+aiofiles
+
+# 直接 import 但此前未声明，靠传递依赖侥幸可用：main.py 用 uvicorn 启动，llm_factory 用 python-dotenv 读 .env
+uvicorn
+python-dotenv

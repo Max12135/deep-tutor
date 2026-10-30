@@ -1,0 +1,21 @@
+[theme]
+primaryColor="#C05A3C"
+base="light"
+font = "sans serif"
+textColor = "#201D1A"
+backgroundColor = "#FAF7F2"
+secondaryBackgroundColor = "#FFFFFF"
+
+[client]
+showErrorDetails = false
+toolbarMode = "minimal"
+
+
+[server]
+port = 8501
+address = "0.0.0.0"
+# 免去首次运行时的「填邮箱」交互，让 start.bat 能无人值守地启动
+headless = true
+
+[browser]
+gatherUsageStats = false

@@ -1,0 +1,49 @@
+# Global application configuration (OmegaConf)
+# Default values only; no environment interpolation or API keys included.
+
+environment: dev
+debug: true
+log_level: INFO
+
+llm:
+  provider: deepseek
+  model_name: deepseek-reasoner
+  base_url: null
+
+embedding:
+  provider: huggingface
+  # 多语模型，中文内容检索质量优于 all-mpnet-base-v2；加载失败时自动回退旧模型
+  model_name: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+
+search:
+  # bing_cn = 必应中国网页搜索（国内直连，无需 API Key）；duckduckgo 国内被墙
+  provider: bing_cn
+  max_results: 5
+  loader_type: web
+
+vectorstore:
+  persist_directory: data/vectorstore
+  # 多语 embedding 维度与旧模型不同，启用新 collection，旧数据保留不动
+  collection_name: genmentor_v2
+
+rag:
+  chunk_size: 1000
+  num_retrieval_results: 5
+  allow_parallel: true
+  max_workers: 3
+
+server:
+  host: 127.0.0.1
+  port: 5000
+
+# API 配置
+api:
+  timeout: 30  # 默认 API 超时时间（秒）
+  max_retries: 3
+  rate_limit: "100/minute"  # 请求速率限制
+  cors_origins: "http://localhost:8501,http://127.0.0.1:8501"
+
+# 上传配置
+upload:
+  max_size_mb: 10  # 最大上传文件大小（MB）
+  location: data/cv  # 上传文件保存目录

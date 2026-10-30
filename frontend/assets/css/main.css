@@ -1,0 +1,990 @@
+/* ============================================================
+   DeepTutor · 暖纸主题（Reader / Apple editorial 风）
+   暖米白纸面 + 砖橙强调 + 衬线大标题 + 居中窄列
+   单一事实来源：所有颜色一律引用 :root 令牌，组件不再写死色值
+   ============================================================ */
+
+:root {
+    /* 纸面 */
+    --paper: #FAF7F2;          /* 主背景：暖米白 */
+    --paper-warm: #F3EEE5;     /* 侧栏 / 弱底 */
+    --gray-tint: #EFE9DF;      /* hover 底 */
+    --hairline: #EAE3D8;       /* 暖调发丝分割线 */
+    --surface: #FFFFFF;        /* 卡片纯白面 */
+    --surface-warm: #F6EFE4;   /* 暖沙底（info 提示条） */
+
+    /* 墨色文字 */
+    --ink: #201D1A;
+    --ink-soft: #35302B;
+    --text-primary: #2A2620;
+    --text-secondary: #6E675E;
+    --text-tertiary: #A39A8E;
+
+    /* 强调 */
+    --accent: #C05A3C;         /* 砖橙：主按钮 / 激活导航 / 链接 / 图表 */
+    --accent-deep: #A94E33;    /* hover 加深 */
+    --accent-soft: #F3E2D9;    /* 砖橙浅底 */
+    --hover: rgba(192, 90, 60, 0.14); /* 悬停底：在暖纸面上足够可见，又弱于激活实底 */
+
+    /* 语义色：低饱和，仅点缀 */
+    --success: #2f9e6e;
+    --warning: #c2872b;
+    --danger: #c2504a;
+
+    /* 几何与阴影 */
+    --border-radius: 14px;
+    --radius-sm: 8px;
+    --shadow: 0 1px 2px rgba(90, 70, 50, 0.04), 0 6px 20px rgba(90, 70, 50, 0.05);
+    --shadow-hover: 0 2px 6px rgba(90, 70, 50, 0.07), 0 10px 28px rgba(90, 70, 50, 0.08);
+
+    /* 字体族 */
+    --font-serif: "Source Han Serif SC", "Noto Serif SC", "Songti SC", STZhongsong, SimSun, serif;
+    --font-sans: "PingFang SC", "Microsoft YaHei", "Segoe UI", system-ui, Avenir, Helvetica, Arial, sans-serif;
+}
+
+/* ---------- 排版：标题衬线（editorial），正文无衬线 ---------- */
+h1, h2, h3, h4, h5, h6,
+[data-testid="stMarkdownContainer"] h1,
+[data-testid="stMarkdownContainer"] h2,
+[data-testid="stMarkdownContainer"] h3,
+[data-testid="stMarkdownContainer"] h4 {
+    font-family: var(--font-serif) !important;
+    color: var(--ink) !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.01em;
+}
+
+p, li, span, label, input, textarea, select, button {
+    font-family: var(--font-sans);
+}
+
+p, li, span, label {
+    color: var(--text-primary);
+}
+
+/* ---------- 全局背景 ---------- */
+div[data-testid="stMainBlockContainer"] {
+    padding-top: 10px !important;
+    padding-bottom: 50px !important;
+    background: var(--paper);
+}
+
+header[data-testid="stHeader"] {
+    display: none !important;
+}
+
+/* ============================================================
+   侧边栏
+   ============================================================ */
+section[data-testid='stSidebar'] {
+    background-color: var(--paper-warm);
+    border-right: 1px solid var(--hairline);
+}
+
+[data-testid="stSidebar"] {
+    width: 224px !important;
+    min-width: 224px !important;
+    max-width: 224px !important;
+}
+
+[data-testid="stSidebar"] [data-testid="stSidebarContent"] {
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+    /* 纵向弹性布局：底部工具区（重置数据 / AI 学习助手）贴到侧栏底部，Edge 式 rail */
+    display: flex !important;
+    flex-direction: column !important;
+}
+[data-testid="stSidebar"] [data-testid="stSidebarNav"] {
+    flex: 0 0 auto !important;
+}
+[data-testid="stSidebar"] [data-testid="stSidebarUserContent"] {
+    flex: 0 0 auto !important;
+    margin-top: auto !important;
+}
+
+/* 工具按钮（重置数据 / AI 学习助手）：与导航项同款扁平风格，悬停才出浅底
+   注意三点：① 带 help 的按钮外面多包了 tooltip 两层壳，`> button` 会漏掉它，故用后代选择器；
+   ② 该区域自带 24px 左右内边距，会让下面所有 100% 退化成 155px（比导航项窄且对不齐），先清掉；
+   ③ 清掉后逐层拉满，按钮再留 4px 外边距，最终与导航项同为 195px 宽、同一起点 */
+[data-testid="stSidebar"] [data-testid="stSidebarUserContent"],
+[data-testid="stSidebar"] [data-testid="stSidebarUserContent"] > div,
+[data-testid="stSidebar"] [data-testid="stSidebarUserContent"] [data-testid="stVerticalBlockBorderWrapper"],
+[data-testid="stSidebar"] [data-testid="stSidebarUserContent"] [data-testid="stVerticalBlock"] {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+[data-testid="stSidebar"] [data-testid="stSidebarUserContent"] > div,
+[data-testid="stSidebar"] [data-testid="stSidebarUserContent"] [data-testid="stVerticalBlockBorderWrapper"],
+[data-testid="stSidebar"] [data-testid="stSidebarUserContent"] [data-testid="stVerticalBlock"],
+[data-testid="stSidebar"] [data-testid="stSidebarUserContent"] [data-testid="stElementContainer"],
+[data-testid="stSidebar"] [data-testid="stSidebarUserContent"] .stButton,
+[data-testid="stSidebar"] [data-testid="stSidebarUserContent"] [data-testid="stTooltipIcon"],
+[data-testid="stSidebar"] [data-testid="stSidebarUserContent"] [data-testid="stTooltipHoverTarget"] {
+    width: 100% !important;
+}
+[data-testid="stSidebar"] [data-testid="stSidebarUserContent"] [data-testid="stTooltipIcon"],
+[data-testid="stSidebar"] [data-testid="stSidebarUserContent"] [data-testid="stTooltipHoverTarget"] {
+    display: block !important;
+}
+/* 分隔线与导航项同宽同起点 */
+[data-testid="stSidebar"] [data-testid="stSidebarUserContent"] hr {
+    margin-left: 4px !important;
+    margin-right: 4px !important;
+}
+[data-testid="stSidebar"] [data-testid="stSidebarUserContent"] button {
+    width: calc(100% - 8px) !important;
+    min-height: 44px !important;
+    margin: 2px 4px !important;
+    background-color: transparent !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+    color: var(--text-secondary) !important;
+    font-weight: 400 !important;
+    justify-content: flex-start !important;
+    text-align: left !important;
+    transform: none !important;
+    transition: background-color 0.18s ease, color 0.18s ease !important;
+}
+[data-testid="stSidebar"] [data-testid="stSidebarUserContent"] button:hover,
+[data-testid="stSidebar"] [data-testid="stSidebarUserContent"] button:active {
+    background-color: var(--hover) !important;
+    border-color: transparent !important;
+    color: var(--ink) !important;
+    transform: none !important;
+}
+[data-testid="stSidebar"] [data-testid="stSidebarUserContent"] button [data-testid="stIconMaterial"] {
+    color: inherit !important;
+}
+
+/* 分组标题卡隐藏（品牌行已承担） */
+header[data-testid="stNavSectionHeader"] {
+    display: none !important;
+}
+
+/* 导航链接：唯一一组样式 */
+a[data-testid="stSidebarNavLink"] {
+    font-size: 0.95rem !important;
+    font-family: var(--font-sans);
+    list-style-type: none;
+    margin: 2px 4px;
+    padding: 7px 10px;
+    gap: 8px !important;
+    color: var(--text-secondary);
+    border-radius: 10px;
+    border-left: 2px solid transparent;
+    transition: background-color 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+}
+
+a[data-testid="stSidebarNavLink"]:hover {
+    background-color: var(--hover);
+    color: var(--ink);
+}
+
+a[data-testid="stSidebarNavLink"] span:nth-of-type(2) {
+    font-size: 0.95rem;
+    margin-left: 10px;
+}
+
+[data-testid="stSidebarNav"] [data-testid="stIconMaterial"] {
+    font-size: 19px !important;
+    font-weight: normal;
+}
+
+/* 侧栏底部工具按钮紧凑 */
+[data-testid="stSidebar"] .stButton > button {
+    border-radius: 10px;
+    font-size: 0.9rem !important;
+    padding: 7px 10px !important;
+}
+
+/* 侧栏头部：品牌行与折叠按钮同行居中 */
+[data-testid="stSidebarHeader"] {
+    position: relative !important;
+    display: flex !important;
+    align-items: center !important;
+    padding: 12px 10px 6px !important;
+    min-height: 44px !important;
+}
+
+/* 品牌 logo：唯一一条尺寸规则（覆盖所有历史竞争规则） */
+section[data-testid="stSidebar"] img[data-testid="stLogo"] {
+    display: block !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    height: 34px !important;
+    width: auto !important;
+    max-height: none !important;
+    max-width: none !important;
+    object-fit: contain !important;
+}
+
+/* 折叠按钮：常显 + 暖底 */
+[data-testid="stSidebarCollapseButton"] {
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+[data-testid="stSidebarCollapseButton"] button {
+    width: 34px !important;
+    height: 34px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: var(--gray-tint) !important;
+    border-radius: var(--radius-sm) !important;
+    padding: 0 !important;
+}
+
+[data-testid="stSidebarCollapseButton"] svg {
+    width: 20px !important;
+    height: 20px !important;
+    color: var(--ink) !important;
+    fill: var(--ink) !important;
+}
+
+/* 侧栏文档目录（继续学习页注入的目录链接） */
+[data-testid="stSidebarUserContent"] [data-testid="stVerticalBlockBorderWrapper"] [data-testid="stMarkdown"] a {
+    text-decoration: none;
+    color: var(--ink);
+    transition: color 0.18s ease, background-color 0.18s ease;
+}
+
+[data-testid="stSidebarUserContent"] [data-testid="stVerticalBlockBorderWrapper"] [data-testid="stMarkdown"] a:focus,
+[data-testid="stSidebarUserContent"] [data-testid="stVerticalBlockBorderWrapper"] [data-testid="stMarkdown"] a:active {
+    outline: none;
+}
+
+[data-testid="stSidebarUserContent"] [data-testid="stMarkdown"] p {
+    border-radius: var(--radius-sm);
+    font-weight: normal;
+    color: var(--text-secondary);
+    margin: -20px 0px 1rem;
+    padding: 8px 16px;
+    border-left: 2px solid transparent;
+    transition: background-color 0.18s ease, color 0.18s ease;
+}
+
+[data-testid="stSidebarUserContent"] [data-testid="stMarkdown"] p:hover,
+[data-testid="stSidebarUserContent"] [data-testid="stMarkdown"] p:active {
+    background-color: var(--gray-tint);
+    color: var(--ink);
+}
+
+/* 激活项：砖橙实底（Reader 式，由注入脚本加 .gm-active 类触发） */
+[data-testid="stSidebar"] a.gm-active {
+    background: var(--accent) !important;
+    border-radius: 10px !important;
+}
+
+[data-testid="stSidebar"] a.gm-active * {
+    color: #fff !important;
+}
+
+[data-testid="stSidebar"] a.gm-active svg {
+    color: #fff !important;
+    fill: #fff !important;
+}
+
+/* ============================================================
+   卡片 / 容器 / 指标
+   ============================================================ */
+[data-testid="stVerticalBlockBorderWrapper"] {
+    border-radius: var(--border-radius) !important;
+}
+
+[data-testid="stMetric"],
+[data-testid="stMetricContainer"] {
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-radius: var(--border-radius);
+    padding: 14px 16px;
+    box-shadow: var(--shadow);
+}
+
+[data-testid="stMetricValue"] {
+    color: var(--ink) !important;
+    font-weight: 700 !important;
+}
+
+[data-testid="stMetricLabel"] {
+    color: var(--text-secondary) !important;
+    font-size: 0.85em !important;
+    letter-spacing: 0.04em;
+    text-transform: none;
+}
+
+/* ============================================================
+   按钮：主=砖橙实底；次=白底暖描边（唯一一组定义）
+   ============================================================ */
+button[data-testid="stBaseButton-primary"] {
+    background-color: var(--accent) !important;
+    border: 1px solid var(--accent) !important;
+    color: #ffffff !important;
+    border-radius: var(--radius-sm) !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.02em;
+    box-shadow: none !important;
+    transition: background-color 0.18s ease, transform 0.15s ease, box-shadow 0.18s ease !important;
+}
+
+button[data-testid="stBaseButton-primary"]:hover {
+    background-color: var(--accent-deep) !important;
+    border-color: var(--accent-deep) !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(192, 90, 60, 0.22) !important;
+}
+
+button[data-testid="stBaseButton-secondary"] {
+    background-color: var(--paper) !important;
+    border: 1px solid var(--hairline) !important;
+    color: var(--ink) !important;
+    border-radius: var(--radius-sm) !important;
+    font-weight: 550 !important;
+    box-shadow: none !important;
+    transition: border-color 0.18s ease, background-color 0.18s ease, transform 0.15s ease !important;
+}
+
+button[data-testid="stBaseButton-secondary"]:hover {
+    border-color: var(--accent) !important;
+    color: var(--accent) !important;
+    background-color: var(--paper) !important;
+    transform: translateY(-1px);
+}
+
+/* 全类型按钮兜底：flex 垂直居中（唯一一组） */
+button[data-testid^="stBaseButton"] {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    line-height: 1.2 !important;
+    vertical-align: middle !important;
+}
+
+button[data-testid^="stBaseButton"] > span {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    line-height: 1.2 !important;
+    gap: 6px !important;
+}
+
+button[data-testid^="stBaseButton"] [data-testid="stIconMaterial"] {
+    display: inline-flex !important;
+    align-items: center !important;
+    margin: 0 !important;
+}
+
+/* 纯图标按钮收紧横向留白 */
+button[data-testid^="stBaseButton"] span:has(> [data-testid="stIconMaterial"]:only-child) {
+    gap: 0 !important;
+    padding: 0 !important;
+}
+
+/* 按钮标签归一化：清除从全局 markdown 规则渗入的内外边距/行高，保证文字几何居中 */
+button[data-testid^="stBaseButton"] [data-testid="stMarkdownContainer"],
+button[data-testid^="stBaseButton"] [data-testid="stMarkdownContainer"] p {
+    margin: 0 !important;
+    padding: 0 !important;
+    line-height: 1.2 !important;
+    font-size: inherit !important;
+}
+button[data-testid^="stBaseButton"] [data-testid="stMarkdownContainer"] p {
+    text-align: center !important;
+}
+
+/* ============================================================
+   表单控件：进度 / 滑杆 / 开关 / pills / 评分 / 输入框
+   ============================================================ */
+[data-testid="stProgress"] > div > div {
+    background: var(--accent);
+}
+
+[data-testid="stSlider"] [role="slider"] {
+    background-color: var(--accent) !important;
+}
+
+/* pills / chips */
+[data-testid="stPills"] button {
+    border-radius: 999px !important;
+    border: 1px solid var(--hairline) !important;
+    background-color: var(--paper) !important;
+    color: var(--text-secondary) !important;
+    font-weight: 500 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    line-height: 1.2 !important;
+    transition: all 0.18s ease !important;
+}
+
+[data-testid="stPills"] button:hover {
+    border-color: var(--accent) !important;
+    color: var(--accent) !important;
+}
+
+[data-testid="stPills"] button[data-checked="true"],
+[data-testid="stPills"] button[aria-checked="true"] {
+    background-color: var(--accent) !important;
+    border-color: var(--accent) !important;
+    color: #ffffff !important;
+}
+
+/* 星级评分 */
+[data-testid="stFeedback"] svg {
+    color: var(--accent);
+    fill: var(--accent);
+}
+
+/* 输入框 */
+[data-testid="stTextInput"],
+[data-testid="stTextArea"],
+[data-testid="stSelectbox"],
+[data-testid="stMultiselect"],
+[data-testid="stNumberInput"] {
+    border-radius: var(--radius-sm);
+}
+
+[data-testid="stTextInput"] > div > div > input,
+[data-testid="stTextArea"] > div > div > textarea,
+[data-testid="stSelectbox"] > div > div,
+[data-testid="stNumberInput"] > div > div > input {
+    border-color: var(--hairline) !important;
+    border-radius: var(--radius-sm) !important;
+    color: var(--ink);
+    transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+[data-testid="stTextInput"] > div > div > input:focus,
+[data-testid="stTextArea"] > div > div > textarea:focus,
+[data-testid="stNumberInput"] > div > div > input:focus {
+    border-color: var(--accent) !important;
+    box-shadow: 0 0 0 3px rgba(192, 90, 60, 0.10) !important;
+}
+
+/* ============================================================
+   标签页 / expander / 分割线 / 提示条 / 链接
+   ============================================================ */
+[data-testid="stTabs"] [data-baseweb="tab-list"] {
+    gap: 4px;
+    border-bottom: 1px solid var(--hairline);
+}
+
+[data-testid="stTabs"] [data-baseweb="tab"] {
+    border-radius: 0;
+    font-weight: 550;
+    color: var(--text-secondary);
+    background-color: transparent !important;
+}
+
+[data-testid="stTabs"] [data-baseweb="tab"]:hover {
+    color: var(--ink);
+}
+
+[data-testid="stTabs"] [aria-selected="true"] {
+    color: var(--ink) !important;
+    font-weight: 650;
+}
+
+[data-testid="stTabs"] [data-baseweb="tab-highlight"] {
+    background-color: var(--accent) !important;
+}
+
+[data-testid="stTabs"] [data-baseweb="tab-border"] {
+    display: none !important;
+}
+
+[data-testid="stExpander"] {
+    border: 1px solid var(--hairline) !important;
+    border-radius: var(--border-radius) !important;
+    background: var(--paper);
+    transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+[data-testid="stExpander"]:hover {
+    border-color: var(--text-tertiary);
+    box-shadow: var(--shadow);
+}
+
+hr {
+    border-color: var(--hairline) !important;
+}
+
+[data-testid="stAlert"] {
+    border-radius: var(--border-radius);
+}
+
+/* 只把 info 提示条调暖，保留 success/warning/error 语义色 */
+[data-testid="stAlertContainer"]:has([data-testid="stAlertContentInfo"]) {
+    background: var(--surface-warm) !important;
+    border: 1px solid var(--hairline) !important;
+    border-left: 3px solid var(--accent) !important;
+    border-radius: 12px !important;
+}
+
+[data-testid="stAlertContainer"]:has([data-testid="stAlertContentInfo"]) [data-testid="stAlertContentInfo"],
+[data-testid="stAlertContainer"]:has([data-testid="stAlertContentInfo"]) [data-testid="stAlertContentInfo"] * {
+    color: var(--text-primary) !important;
+}
+
+[data-testid="stAlertContainer"]:has([data-testid="stAlertContentInfo"]) svg {
+    color: var(--accent) !important;
+    fill: var(--accent) !important;
+}
+
+a {
+    color: var(--accent);
+    text-decoration: underline;
+    text-decoration-color: var(--text-tertiary);
+    text-underline-offset: 3px;
+}
+
+a:hover {
+    color: var(--accent-deep);
+    text-decoration-color: var(--accent);
+}
+
+/* ============================================================
+   阅读排版：学习文档正文
+   ============================================================ */
+[data-testid="stMarkdownContainer"] h1 {
+    font-size: 1.45rem;
+    letter-spacing: 0.02em;
+    margin: 1.1em 0 0.45em;
+}
+
+[data-testid="stMarkdownContainer"] h2 {
+    font-size: 1.22rem;
+    padding-bottom: 0.3em;
+    border-bottom: 1px solid var(--hairline);
+    margin: 1.2em 0 0.5em;
+}
+
+[data-testid="stMarkdownContainer"] h3 {
+    font-size: 1.05rem;
+    margin: 1em 0 0.4em;
+}
+
+[data-testid="stMarkdownContainer"] p,
+[data-testid="stMarkdownContainer"] li {
+    line-height: 1.85;
+    font-size: 0.98rem;
+}
+
+[data-testid="stMarkdownContainer"] p {
+    margin-bottom: 0.75em;
+}
+
+[data-testid="stMarkdownContainer"] strong {
+    font-weight: 700;
+    color: var(--ink);
+}
+
+[data-testid="stMarkdownContainer"] hr {
+    border: none;
+    border-top: 1px solid var(--hairline);
+    margin: 1.4em 0;
+}
+
+[data-testid="stMarkdownContainer"] table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.92rem;
+}
+
+[data-testid="stMarkdownContainer"] th,
+[data-testid="stMarkdownContainer"] td {
+    border: 1px solid var(--hairline);
+    padding: 0.45em 0.7em;
+    text-align: left;
+    line-height: 1.6;
+}
+
+[data-testid="stMarkdownContainer"] th {
+    background: var(--gray-tint);
+    font-weight: 650;
+}
+
+[data-testid="stMarkdownContainer"] blockquote {
+    border-left: 3px solid var(--accent);
+    padding: 0.15em 0 0.15em 1em;
+    margin: 0.8em 0;
+    color: var(--text-secondary);
+}
+
+[data-testid="stMarkdownContainer"] code {
+    background: var(--gray-tint);
+    border-radius: 4px;
+    padding: 0.12em 0.4em;
+    font-size: 0.88em;
+}
+
+/* ============================================================
+   布局：居中窄列 + 大标题 Hero
+   ============================================================ */
+div[data-testid="stMainBlockContainer"] {
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+}
+
+[data-testid="stMainBlockContainer"] h1 {
+    font-size: 2.35rem !important;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+    margin: 0.4em 0 0.35em;
+}
+
+[data-testid="stMainBlockContainer"] h2 {
+    font-size: 1.3rem !important;
+}
+
+/* Hero 右侧紧凑统计（标题左、数据右） */
+.mini-stat {
+    border-left: 2px solid var(--hairline);
+    padding-left: 16px;
+}
+
+.mini-item {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin: 3px 0;
+}
+
+.mini-value {
+    font-size: 1.3rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    line-height: 1.15;
+}
+
+.mini-label {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+/* ============================================================
+   组件级类（供 Python 内联 HTML 引用，替代硬编码色值）
+   ============================================================ */
+
+/* 大数字统计块 */
+.stat-row { display: flex; gap: 14px; margin: 0.4em 0 0.8em; }
+.stat-item {
+    flex: 1;
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-radius: var(--border-radius);
+    padding: 18px 22px 16px;
+}
+.stat-value { font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; color: var(--ink); line-height: 1.1; }
+.stat-value .stat-unit { font-size: 0.95rem; font-weight: 600; color: var(--text-tertiary); margin-left: 4px; }
+.stat-label { font-size: 0.86rem; color: var(--text-secondary); margin-top: 4px; }
+
+/* 页面 Hero 标题区 */
+.gm-hero { margin: 0.2em 0 1em; }
+.gm-hero-title {
+    font-family: var(--font-serif);
+    font-size: 2.35rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    line-height: 1.2;
+    margin: 0 0 0.25em;
+}
+.gm-hero-sub { color: var(--text-secondary); font-size: 0.98rem; margin: 0; }
+.gm-hero-eyebrow {
+    font-size: 0.78rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 700;
+    margin: 0 0 0.4em;
+}
+
+/* 通用小节卡 */
+.gm-section {
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-radius: var(--border-radius);
+    padding: 15px 18px;
+    margin: 10px 0;
+    line-height: 1.75;
+    color: var(--text-primary);
+}
+
+/* 技能卡片 */
+.gm-skill-card {
+    background: var(--paper-warm);
+    color: var(--ink);
+    padding: 10px 14px;
+    border-radius: var(--radius-sm);
+    margin-bottom: 10px;
+    border-left: 3px solid var(--text-tertiary);
+    line-height: 1.6;
+}
+.gm-skill-card--mastered { background: var(--paper-warm); border-left-color: var(--ink); }
+.gm-skill-card--progress { background: var(--surface); border: 1px solid var(--hairline); border-left: 3px solid var(--accent); }
+
+/* 技能差距卡头 */
+.gm-gap-card {
+    padding: 10px 16px;
+    border-radius: var(--radius-sm);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    background: var(--paper-warm);
+    color: var(--text-secondary);
+}
+.gm-gap-card--gap { background: var(--accent); color: #ffffff; }
+.gm-gap-card p { font-weight: 700; margin: 0; flex: 1; }
+.gm-gap-card--gap p { color: #ffffff !important; }
+
+/* 学习环节卡标题 */
+.gm-session-title {
+    font-family: var(--font-serif);
+    font-weight: 700;
+    font-size: 1.08rem;
+    margin-bottom: 10px;
+    color: var(--ink);
+}
+.gm-session-title--done { color: var(--text-tertiary); }
+
+/* 状态标签 */
+.gm-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 2px 10px;
+    border-radius: 999px;
+    border: 1px solid var(--hairline);
+    color: var(--text-secondary);
+    background: var(--paper);
+}
+.gm-chip--done { background: var(--accent-soft); border-color: var(--accent-soft); color: var(--accent-deep); }
+.gm-chip--todo { background: var(--paper); color: var(--text-secondary); }
+
+/* 骨架屏（暖灰脉冲） */
+@keyframes gm-pulse { 0%, 100% { opacity: .45 } 50% { opacity: .85 } }
+.gm-skel {
+    background: var(--gray-tint);
+    border-radius: var(--radius-sm);
+    animation: gm-pulse 1.4s ease-in-out infinite;
+}
+
+/* 知识图谱信息条（knowledge_document 页内） */
+.gm-graph-info {
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-left: 3px solid var(--accent);
+    color: var(--text-primary);
+    padding: 12px 16px;
+    border-radius: 12px;
+}
+
+/* 环节详情（内联展示，替代下拉框） */
+.gm-session-desc {
+    background: var(--paper-warm);
+    border-left: 3px solid var(--accent);
+    border-radius: var(--radius-sm);
+    padding: 10px 14px;
+    color: var(--text-secondary);
+    font-size: 0.92rem;
+    line-height: 1.7;
+    margin: 2px 0 12px;
+}
+.gm-session-outcomes-label {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--text-tertiary);
+    letter-spacing: 0.03em;
+    margin: 0 0 7px;
+}
+.gm-outcome-list { display: flex; flex-wrap: wrap; gap: 6px; }
+.gm-outcome {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-radius: 999px;
+    padding: 3px 11px;
+    font-size: 0.82rem;
+    color: var(--text-primary);
+}
+.gm-outcome-level { color: var(--accent-deep); font-weight: 700; font-size: 0.75rem; }
+
+/* ============================================================
+   折叠态：侧栏收成一列图标导航栏（类 Edge 垂直标签栏）
+   覆盖 Streamlit 默认的“收起即隐藏内容”行为
+   ============================================================ */
+section[data-testid="stSidebar"][aria-expanded="false"] {
+    width: 68px !important;
+    min-width: 68px !important;
+    max-width: 68px !important;
+    flex: 0 0 68px !important;
+    margin-left: 0 !important;
+    /* Streamlit 收起时把整栏 translateX(-宽度) 移出屏幕，这里抵消 */
+    transform: none !important;
+}
+/* 折叠时仍显示内容（Streamlit 默认会隐藏内容） */
+section[data-testid="stSidebar"][aria-expanded="false"] [data-testid="stSidebarContent"] {
+    display: flex !important;
+    flex-direction: column !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    overflow-x: hidden !important;
+    width: 68px !important;
+}
+section[data-testid="stSidebar"][aria-expanded="false"] [data-testid="stSidebarUserContent"],
+section[data-testid="stSidebar"][aria-expanded="false"] [data-testid="stSidebarNav"] {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+/* 后代仅恢复可见性，不改变 display（避免破坏 header / nav 的 flex 布局） */
+section[data-testid="stSidebar"][aria-expanded="false"] [data-testid="stSidebarContent"] * {
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+/* 折叠态隐藏品牌 logo 与浮出的折叠控件（避免与图标栏重叠） */
+section[data-testid="stSidebar"][aria-expanded="false"] [data-testid="stLogo"],
+[data-testid="stSidebarCollapsedControl"] {
+    display: none !important;
+}
+/* 折叠态收紧内边距 */
+section[data-testid="stSidebar"][aria-expanded="false"] [data-testid="stSidebarContent"] {
+    padding-left: 6px !important;
+    padding-right: 6px !important;
+}
+section[data-testid="stSidebar"][aria-expanded="false"] [data-testid="stSidebarHeader"] {
+    justify-content: center !important;
+    padding: 10px 0 6px !important;
+}
+/* 折叠键图标与导航图标同号，避免 44 方框里图标显得过小 */
+section[data-testid="stSidebar"][aria-expanded="false"] [data-testid="stSidebarCollapseButton"] button [data-testid="stIconMaterial"],
+section[data-testid="stSidebar"][aria-expanded="false"] [data-testid="stSidebarCollapseButton"] button svg {
+    font-size: 20px !important;
+    width: 20px !important;
+    height: 20px !important;
+}
+/* 收起态该键的作用是「展开」，箭头要朝右（图标默认朝左，转 180°） */
+section[data-testid="stSidebar"][aria-expanded="false"] [data-testid="stSidebarCollapseButton"] button svg {
+    transform: rotate(180deg) !important;
+}
+/* 导航项：仅留图标，做成正方形并居中 */
+section[data-testid="stSidebar"][aria-expanded="false"] a[data-testid="stSidebarNavLink"] {
+    width: 44px !important;
+    height: 44px !important;
+    min-height: 44px !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 0 !important;
+    margin: 3px auto !important;
+    padding: 0 !important;
+    /* 展开态那条 2px 左描边会让图标整体右偏 1px，折叠态去掉 */
+    border-left: 0 !important;
+    border-radius: 10px !important;
+}
+/* 图标盒子默认是 1em（外层字号 14.4px），但字形按 19px 绘制、从盒子左边溢出，
+   视觉上会右偏约 2.4px。把盒子撑到与字形同号，字形才真正落在正方形正中 */
+section[data-testid="stSidebar"][aria-expanded="false"] a[data-testid="stSidebarNavLink"] span {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 20px !important;
+    height: 20px !important;
+    line-height: 20px !important;
+}
+section[data-testid="stSidebar"][aria-expanded="false"] a[data-testid="stSidebarNavLink"] span:nth-of-type(2) {
+    display: none !important;
+}
+/* 侧栏按钮：仅留图标、撑满一列并居中
+   注意：折叠态下 Streamlit 侧栏列宽是内容推导的，子元素用百分比会退化成 0，
+   故父容器给固定像素宽度（68 - 2*6 padding = 56），再由后代 100% 继承。 */
+section[data-testid="stSidebar"][aria-expanded="false"] [data-testid="stSidebarUserContent"] {
+    width: 56px !important;
+}
+section[data-testid="stSidebar"][aria-expanded="false"] [data-testid="stSidebarUserContent"],
+section[data-testid="stSidebar"][aria-expanded="false"] [data-testid="stSidebarUserContent"] > div,
+section[data-testid="stSidebar"][aria-expanded="false"] [data-testid="stSidebarUserContent"] [data-testid="stVerticalBlockBorderWrapper"],
+section[data-testid="stSidebar"][aria-expanded="false"] [data-testid="stSidebarUserContent"] [data-testid="stVerticalBlock"] {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+section[data-testid="stSidebar"][aria-expanded="false"] [data-testid="stSidebarUserContent"] > div,
+section[data-testid="stSidebar"][aria-expanded="false"] [data-testid="stSidebarUserContent"] [data-testid="stVerticalBlockBorderWrapper"],
+section[data-testid="stSidebar"][aria-expanded="false"] [data-testid="stSidebarUserContent"] [data-testid="stVerticalBlock"],
+section[data-testid="stSidebar"][aria-expanded="false"] [data-testid="stSidebarUserContent"] [data-testid="stElementContainer"],
+section[data-testid="stSidebar"][aria-expanded="false"] [data-testid="stSidebarUserContent"] .stButton {
+    width: 100% !important;
+}
+section[data-testid="stSidebar"][aria-expanded="false"] [data-testid="stSidebarUserContent"] [data-testid="stVerticalBlock"] {
+    align-items: stretch !important;
+}
+/* 按钮也做成与导航项一致的正方形，水平居中（悬停高亮同样是正方形） */
+section[data-testid="stSidebar"][aria-expanded="false"] [data-testid="stSidebarUserContent"] button {
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+    min-height: 44px !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 10px !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
+    color: var(--text-secondary) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0 !important;
+    transform: none !important;
+}
+section[data-testid="stSidebar"][aria-expanded="false"] [data-testid="stSidebarUserContent"] button:hover,
+section[data-testid="stSidebar"][aria-expanded="false"] [data-testid="stSidebarUserContent"] button:active {
+    background-color: var(--hover) !important;
+    color: var(--ink) !important;
+    transform: none !important;
+}
+section[data-testid="stSidebar"][aria-expanded="false"] [data-testid="stSidebarUserContent"] button [data-testid="stMarkdownContainer"] {
+    display: none !important;
+}
+/* 文字标签隐藏后，图标仍留着「与文字之间的 8px 右外边距」，会把图标整体推左 4px */
+section[data-testid="stSidebar"][aria-expanded="false"] [data-testid="stSidebarUserContent"] button > * {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+section[data-testid="stSidebar"][aria-expanded="false"] [data-testid="stSidebarUserContent"] button [data-testid="stIconMaterial"] {
+    font-size: 20px !important;
+    color: inherit !important;
+}
+/* 折叠态收起分隔线（上下两组仅靠留白区隔，更接近 Edge rail） */
+section[data-testid="stSidebar"][aria-expanded="false"] [data-testid="stSidebarUserContent"] hr,
+section[data-testid="stSidebar"][aria-expanded="false"] [data-testid="stSidebarNavSeparator"] {
+    display: none !important;
+}
+/* 底部工具区与上方导航组拉开距离 */
+section[data-testid="stSidebar"][aria-expanded="false"] [data-testid="stSidebarUserContent"] {
+    padding-bottom: 14px !important;
+}
+
+/* ============================================================
+   收起态：隐藏页面注入的侧栏内容（如「继续学习」页的文档结构目录）
+   页面在侧栏目录前放一个 .gm-toc-marker 标记；展开时只藏掉标记本身
+   （display:none 不占位），目录原样显示；收起时把标记之后的同级块全部藏掉，
+   避免目录文字挤进 68px 图标栏。
+   ============================================================ */
+[data-testid="stSidebar"] [data-testid="stSidebarUserContent"] [data-testid="stElementContainer"]:has(.gm-toc-marker) {
+    display: none !important;
+}
+section[data-testid="stSidebar"][aria-expanded="false"] [data-testid="stSidebarUserContent"] [data-testid="stElementContainer"]:has(.gm-toc-marker) ~ [data-testid="stElementContainer"] {
+    display: none !important;
+}
+
