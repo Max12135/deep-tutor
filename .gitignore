@@ -20,12 +20,14 @@ htmlcov/
 !.env.example
 !.env.*.example
 python_path.txt
+**/.streamlit/secrets.toml
 
 # 用户数据、生成内容和运行日志
 /frontend/assets/exp_results/
 /frontend/user_data/
 /frontend/assets/validation_dataset/
 /backend/data/
+/data/
 outputs/
 multirun/
 *.log

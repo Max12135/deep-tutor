@@ -22,7 +22,7 @@
 ## 二、安装（只需做一次）
 
 > **Windows 用户**：可以直接跳到 [三、启动](#三启动) 双击 `start.bat`，它会自动完成下面这些步骤，不用手敲命令。
-> 只有 macOS / Linux，或想自己控制环境时才需要照下面手动做。
+> **macOS / Linux 用户**：可以直接使用第三节的 `./start.sh` 自动准备环境；也可按下面步骤手动安装。
 
 在项目根目录（即本 README 所在目录）打开终端：
 
@@ -81,9 +81,27 @@ DEEPSEEK_API_KEY=sk-你自己的key
 停止服务：关掉那两个黑窗口。
 
 > 在 VS Code 里也可以 `Ctrl+Shift+B`（或 `终端 → 运行任务`）选 **“DeepTutor: 一键启动（后端+前端）”**，效果相同。
-> 也可以只用 🐍 解释器手动跑：见方式二。
+> 也可以只用 🐍 解释器手动跑：见方式三。
 
-### 方式二：手动启动（macOS / Linux，或想自己控制端口）
+### 方式二：一键启动（macOS / Linux）
+
+安装 Python 3.12 后，在项目根目录运行：
+
+```bash
+./start.sh
+```
+
+脚本自动创建 `frontend/.venv`。首次会复制 `backend/.env.example` 为 `backend/.env` 并退出，填写其中的 `DEEPSEEK_API_KEY` 后再次运行即可。脚本会安装前后端依赖，并在依赖清单变化时重新安装；安装标记位于虚拟环境内。
+
+如需指定 Python 3.12 的位置：
+
+```bash
+PYTHON_BIN=/完整路径/python3.12 ./start.sh
+```
+
+前后端日志显示在同一个终端，服务就绪后打开 **http://localhost:8501**。按 **Ctrl+C** 同时停止两个服务；任一服务退出时，脚本也会停止另一个服务。端口固定为 5000 和 8501，仅监听本机。脚本可从其他目录通过完整路径调用。
+
+### 方式三：手动启动（或想自己控制端口）
 
 需要开**两个**终端窗口，都保持运行。
 
@@ -203,6 +221,7 @@ DeepTutor/
 │   └── requirements.txt
 ├── .vscode/                    VS Code 任务配置（Ctrl+Shift+B 一键启动）
 ├── start.bat                   Windows 一键启动脚本
+├── start.sh                    macOS / Linux 一键启动脚本
 ├── .gitignore
 ├── LICENSE
 └── README.md
